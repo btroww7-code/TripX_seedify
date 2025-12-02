@@ -1,0 +1,256 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  min-height: 100vh;
+  color: white;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.leaflet-container {
+  font-family: inherit;
+}
+
+/* Wymuś przezroczystość Header i Sidebar - 75% przezroczystości */
+header[class*="sticky"] {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  -moz-backdrop-filter: blur(20px) !important;
+}
+
+aside[class*="fixed"] {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  -moz-backdrop-filter: blur(20px) !important;
+}
+
+/* Mobile menu */
+div[class*="lg:hidden"][class*="fixed"][class*="bottom-0"] {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  -moz-backdrop-filter: blur(20px) !important;
+}
+
+/* Przezroczyste scrollbary z blur - premium glass effect */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  -moz-backdrop-filter: blur(12px);
+  border-radius: 10px;
+  margin: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  -moz-backdrop-filter: blur(12px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-clip: padding-box;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) rgba(0, 0, 0, 0.05);
+}
+
+/* Poprawa kontrastu tekstu */
+body, p, span, div, h1, h2, h3, h4, h5, h6 {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Wymuś przezroczystość dla wszystkich elementów header i aside */
+header, aside {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  -moz-backdrop-filter: blur(20px) !important;
+}
+
+/* Premium glass effects dla wszystkich kart i kontenerów */
+[class*="rounded-2xl"][class*="backdrop-blur"],
+[class*="rounded-3xl"][class*="backdrop-blur"],
+[class*="rounded-xl"][class*="backdrop-blur"] {
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  -moz-backdrop-filter: blur(20px) !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+[class*="rounded-2xl"][class*="backdrop-blur"]:hover,
+[class*="rounded-3xl"][class*="backdrop-blur"]:hover,
+[class*="rounded-xl"][class*="backdrop-blur"]:hover {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Input fields glass effect */
+input[type="text"],
+input[type="datetime-local"],
+input[type="range"],
+textarea,
+select {
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  -moz-backdrop-filter: blur(16px) !important;
+  background-color: rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: white !important;
+  transition: all 0.3s ease !important;
+}
+
+input[type="text"]::placeholder,
+input[type="datetime-local"]::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+input[type="text"]:focus,
+input[type="datetime-local"]:focus,
+textarea:focus,
+select:focus {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  outline: none !important;
+}
+
+/* Buttons glass effect */
+button[class*="rounded"] {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  -moz-backdrop-filter: blur(10px) !important;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* Labels - make them white and visible */
+label {
+  color: white !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+}
+
+/* Range sliders with glass effect */
+input[type="range"] {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  -moz-backdrop-filter: blur(10px) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.9), rgba(6, 182, 212, 0.9)) !important;
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  -moz-backdrop-filter: blur(8px) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.9), rgba(6, 182, 212, 0.9)) !important;
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* GTA-style marker animations */
+@keyframes markerFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+@keyframes markerPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.3);
+  }
+}
+
+.custom-quest-marker-gta {
+  position: relative;
+}
+
+.custom-quest-marker-gta .marker-pin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-quest-marker-gta .marker-core {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Mapbox popup styling - GTA premium */
+.quest-popup-gta .mapboxgl-popup-content {
+  background: transparent !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.quest-popup-gta .mapboxgl-popup-tip {
+  border-top-color: rgba(0, 0, 0, 0.95) !important;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.quest-popup-gta .mapboxgl-popup-close-button {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 20px !important;
+  padding: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.quest-popup-gta .mapboxgl-popup-close-button:hover {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+}
+

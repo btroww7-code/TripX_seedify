@@ -1,0 +1,90 @@
+# Google Cloud Build configuration dla TripX
+# Uruchom: gcloud builds submit --config cloudbuild.yaml
+
+steps:
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/tripx:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/tripx:latest'
+      - '-f'
+      - 'Dockerfile.simple'
+      - '.'
+
+  # Push to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/tripx:$COMMIT_SHA'
+  
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/tripx:latest'
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'tripx'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/tripx:$COMMIT_SHA'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '80'
+      - '--memory'
+      - '2Gi'
+      - '--cpu'
+      - '2'
+      - '--min-instances'
+      - '1'
+      - '--max-instances'
+      - '10'
+      - '--set-env-vars'
+      - |
+        VITE_SUPABASE_URL=${_VITE_SUPABASE_URL},
+        VITE_SUPABASE_ANON_KEY=${_VITE_SUPABASE_ANON_KEY},
+        SUPABASE_URL=${_SUPABASE_URL},
+        SUPABASE_ANON_KEY=${_SUPABASE_ANON_KEY},
+        SUPABASE_SERVICE_ROLE_KEY=${_SUPABASE_SERVICE_ROLE_KEY},
+        VITE_GOOGLE_MAPS_KEY=${_VITE_GOOGLE_MAPS_KEY},
+        VITE_GOOGLE_MAPS_API_KEY=${_VITE_GOOGLE_MAPS_API_KEY},
+        API_KEY=${_API_KEY},
+        VITE_GOOGLE_AI_KEY=${_VITE_GOOGLE_AI_KEY},
+        VITE_MAPBOX_TOKEN=${_VITE_MAPBOX_TOKEN},
+        PORT=3002,
+        NODE_ENV=production
+
+images:
+  - 'gcr.io/$PROJECT_ID/tripx:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/tripx:latest'
+
+substitutions:
+  _REGION: europe-west1
+  _VITE_SUPABASE_URL: ''
+  _VITE_SUPABASE_ANON_KEY: ''
+  _SUPABASE_URL: ''
+  _SUPABASE_ANON_KEY: ''
+  _SUPABASE_SERVICE_ROLE_KEY: ''
+  _VITE_GOOGLE_MAPS_KEY: ''
+  _VITE_GOOGLE_MAPS_API_KEY: ''
+  _API_KEY: ''
+  _VITE_GOOGLE_AI_KEY: ''
+  _VITE_MAPBOX_TOKEN: ''
+
+options:
+  machineType: 'E2_HIGHCPU_8'
+  logging: CLOUD_LOGGING_ONLY
+
+timeout: '1200s'
+
+
