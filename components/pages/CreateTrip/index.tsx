@@ -1,0 +1,2 @@
+export { CreateTrip } from './CreateTrip';
+
